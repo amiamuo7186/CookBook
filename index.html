@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CookBook | Club Cuisine YouCode</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+       <script src="main.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./service/api.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <style type="text/tailwindcss">
+        @theme {
+            --font-display: "Playfair Display", serif;
+            --font-body: "DM Sans", sans-serif;
+
+            --color-primary: #e8794a;
+            --color-dark: #29251f;
+            --color-cream: #faf7f2;
+        }
+
+        body {
+            font-family: var(--font-body);
+        }
+
+        .font-display {
+            font-family: var(--font-display);
+        }
+    </style> -->
+</head>
+
+<body class="bg-cream text-dark min-h-screen">
+
+    <!-- NAVBAR -->
+    <header class="bg-white border-b border-orange-100 sticky top-0 z-40">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">
+                    🍳
+                </div>
+
+                <div>
+                    <h1 class="font-display text-2xl font-bold">
+                        Cook<span class="text-primary">Book.</span>
+                    </h1>
+                    <p class="text-xs text-gray-500">Club Cuisine · YouCode</p>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="#accueil" class="hover:text-primary transition">Accueil</a>
+                <a href="#recettes" class="hover:text-primary transition">Recettes</a>
+                <a href="#proposer" class="hover:text-primary transition">Proposer une recette</a>
+            </div>
+
+            <a href="#proposer"
+               class="bg-primary text-black px-5 py-3 rounded-xl text-sm font-semibold hover:bg-orange-600 transition">
+                + Ajouter
+            </a>
+
+        </nav>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section id="accueil" class="max-w-7xl mx-auto px-6 py-16">
+
+        <div class="bg-[#29251f] rounded-3xl overflow-hidden relative">
+
+            <div class="grid md:grid-cols-2 items-center">
+
+                <div class="p-8 md:p-14 text-white">
+
+                    <span class="bg-orange-400/20 text-orange-300 px-4 py-2 rounded-full text-xs font-bold">
+                         CLUB CUISINE YOUCODE
+                    </span>
+
+                    <h2 class="font-display text-4xl md:text-6xl font-bold mt-7 leading-tight">
+                        La cuisine est un art,
+                        <span class="text-orange-400">partageons-le.</span>
+                    </h2>
+
+                    <p class="text-gray-300 mt-6 leading-relaxed max-w-md">
+                        Découvrez, partagez et collectionnez vos meilleures
+                        recettes. Une communauté de passionnés autour
+                        de la cuisine et de la créativité.
+                    </p>
+
+                    <a href="#recettes"
+                       class="inline-block mt-8 bg-primary text-white px-7 py-4 rounded-xl font-semibold hover:bg-orange-600 transition">
+                        Explorer les recettes →
+                    </a>
+
+                </div>
+
+                <div class="h-72 md:h-full min-h-[350px]">
+                    <img
+                        src="https://images.unsplash.com/photo-1547592180-85f173990554?w=1000"
+                        alt="Plat de cuisine"
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- RECIPES SECTION -->
+    <main id="recettes" class="max-w-7xl mx-auto px-6 pb-20">
+
+        <!-- TITLE -->
+        <div class="flex flex-col md:flex-row justify-between md:items-end gap-5 mb-10">
+
+            <div  id="proposer">
+                <p class="text-primary font-bold text-sm uppercase tracking-widest">
+                    Notre collection
+                </p>
+
+                <h2 class="font-display text-4xl font-bold mt-2">
+                    Nos recettes
+                </h2>
+
+                <p class="text-gray-500 mt-3">
+                    Trouvez l'inspiration pour votre prochain atelier.
+                </p>
+
+            </div>
+           
+            <button id="openModal"
+                    class="bg-dark text-gray px-6 py-3 rounded-xl hover:bg-gray-700 transition font-semibold">
+                + Proposer une recette
+            </button>
+
+        </div>
+
+
+        <!-- SEARCH AND FILTER -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-8">
+
+            <div class="flex flex-col md:flex-row gap-4">
+
+                <div class="relative flex-1">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        🔍
+                    </span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Rechercher une recette..."
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:border-primary focus:ring-2 focus:ring-orange-100"
+                    >
+                </div>
+
+                <button id="searchBtn"
+                        class="bg-primary text-black px-8 py-4 rounded-xl font-semibold hover:bg-orange-600 transition">
+                    Rechercher
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- RESULTS INFORMATION -->
+        <div class="flex justify-between items-center mb-6">
+
+            <p class="text-gray-500 text-sm">
+                <span id="recipeCount" class="font-bold text-dark">0</span>
+                recettes disponibles
+            </p>
+
+            <button id="resetBtn"
+                    class="text-primary text-sm font-semibold hover:underline">
+                Voir toutes les recettes
+            </button>
+
+        </div>
+
+
+        <!-- LOADING -->
+        <div id="loading" class="hidden py-16 text-center">
+            <div class="w-10 h-10 border-4 border-orange-200 border-t-primary rounded-full animate-spin mx-auto"></div>
+            <p class="text-gray-500 mt-4">Chargement des recettes...</p>
+        </div>
+
+
+        <!-- ERROR MESSAGE -->
+        <div id="errorMessage" class="hidden bg-red-50 border border-red-200 rounded-xl p-5 text-center mb-8">
+            <p class="text-red-600 font-semibold" id="errorText">
+                Une erreur est survenue.
+            </p>
+
+            <button id="retryBtn" class="mt-3 text-red-700 underline font-semibold">
+                Réessayer
+            </button>
+        </div>
+
+
+        <!-- EMPTY RESULTS -->
+        <div id="emptyMessage" class="hidden text-center py-16">
+            <div class="text-5xl mb-4">🍽️</div>
+            <h3 class="font-display text-2xl font-bold">
+                Aucune recette trouvée
+            </h3>
+            <p class="text-gray-500 mt-2">
+                Essayez avec un autre mot-clé.
+            </p>
+            <button id="emptyResetBtn"
+                    class="mt-5 bg-primary text-white px-6 py-3 rounded-xl">
+                Voir toutes les recettes
+            </button>
+        </div>
+
+
+        <!-- RECIPES GRID -->
+        <div id="recipesContainer"
+             class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <!-- Les cartes seront générées avec JavaScript -->
+
+        </div>
+
+    </main>
+
+
+    <!-- ADD RECIPE MODAL -->
+    <dialog id="recipeModal"
+         class="fixed inset-0 z-50 bg-black/50 items-center justify-center p-4">
+
+        <div class="bg-white rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-8">
+
+            <div class="flex justify-between items-center mb-7">
+
+                <div>
+                    <p class="text-primary font-bold text-xs uppercase tracking-widest">
+                        Partagez votre talent
+                    </p>
+
+                    <h2 class="font-display text-3xl font-bold mt-2">
+                        Nouvelle recette
+                    </h2>
+                </div>
+
+                <button id="closeModal"
+                        class="text-gray-400 hover:text-dark text-2xl">
+                    ✕
+                </button>
+
+            </div>
+
+
+            <form id="recipeForm" novalidate>
+
+                <div class="mb-5">
+                    <label for="recipeName" class="block font-semibold text-sm mb-2">
+                        Nom de la recette
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recipeName"
+                        name="name"
+                        placeholder="Ex : Poulet rôti"
+                        class="w-full border border-gray-200 rounded-xl p-4 outline-none focus:border-primary"
+                    >
+
+                    <p id="nameError" class="text-red-500 text-xs mt-2"></p>
+                </div>
+
+
+                <!-- CUISINE -->
+                <div class="mb-5">
+                    <label for="cuisine" class="block font-semibold text-sm mb-2">
+                        Type de cuisine
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cuisine"
+                        name="cuisine"
+                        placeholder="Ex : Moroccan, Italian..."
+                        class="w-full border border-gray-200 rounded-xl p-4 outline-none focus:border-primary"
+                    >
+
+                    <p id="cuisineError" class="text-red-500 text-xs mt-2"></p>
+                </div>
+
+
+                <!-- DIFFICULTY -->
+                <div class="mb-5">
+                    <label for="difficulty" class="block font-semibold text-sm mb-2">
+                        Difficulté
+                    </label>
+
+                    <select
+                        id="difficulty"
+                        name="difficulty"
+                        class="w-full border border-gray-200 rounded-xl p-4 outline-none focus:border-primary bg-white"
+                    >
+                        <option value="">Choisir une difficulté</option>
+                        <option value="Easy">Facile</option>
+                        <option value="Medium">Moyenne</option>
+                        <option value="Hard">Difficile</option>
+                    </select>
+
+                    <p id="difficultyError" class="text-red-500 text-xs mt-2"></p>
+                </div>
+
+
+                <!-- PREPARATION TIME -->
+                <div class="mb-7">
+                    <label for="prepTime" class="block font-semibold text-sm mb-2">
+                        Temps de préparation (minutes)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="prepTime"
+                        name="prepTimeMinutes"
+                        min="1"
+                        max="300"
+                        placeholder="Ex : 30"
+                        class="w-full border border-gray-200 rounded-xl p-4 outline-none focus:border-primary"
+                    >
+
+                    <p id="prepTimeError" class="text-red-500 text-xs mt-2"></p>
+                </div>
+
+
+                <!-- FORM BUTTONS -->
+                <div class="flex gap-3">
+
+                    <button
+                        type="button"
+                        id="cancelModal"
+                        class="flex-1 border border-gray-200 py-4 rounded-xl font-semibold hover:bg-gray-50">
+                        Annuler
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="submitRecipe"
+                        class="flex-1 bg-primary text-black py-4 rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-50">
+                        Ajouter la recette
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+    </dialog>
+
+
+<!--     
+    <div id="toast"
+         class="hidden fixed bottom-6 right-6 z-[60] bg-dark text-white px-6 py-4 rounded-xl shadow-xl">
+        <p id="toastMessage"></p>
+    </div> -->
+
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-8">
+
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-400 text-sm">
+                © 2026 CookBook. Créé avec ❤️ par le Club Cuisine.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>
