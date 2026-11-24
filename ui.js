@@ -1,10 +1,11 @@
 const container=document.getElementById("recipesContainer")
+const nameRegex = /^[a-zA-ZÀ-ÿ\s'-]{3,60}$/;
 
  export let count=0
 export function displayRecipes(recipes) {
-console.log(recipes)
+// console.log(recipes)
  count=recipes.length
- console.log(count)
+//  console.log(count)
     container.innerHTML = "";
 
     recipes.forEach(recipe => {
@@ -46,4 +47,7 @@ console.log(recipes)
 
         container.appendChild(card);
     });
+}
+ export function valider(str){
+     return nameRegex.test(str.trim());
 }
