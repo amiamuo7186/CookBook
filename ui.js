@@ -1,11 +1,11 @@
 const container=document.getElementById("recipesContainer")
 const nameRegex = /^[a-zA-ZÀ-ÿ\s'-]{3,60}$/;
-
+const timeRegex = /^(?:[1-9]\d?|[12]\d{2}|300)$/
  export let count=0
 export function displayRecipes(recipes) {
-// console.log(recipes)
+
  count=recipes.length
-//  console.log(count)
+
     container.innerHTML = "";
 
     recipes.forEach(recipe => {
@@ -50,4 +50,7 @@ export function displayRecipes(recipes) {
 }
  export function valider(str){
      return nameRegex.test(str.trim());
+}
+export function validerTime(str){
+    return timeRegex.test(str.trim())
 }
